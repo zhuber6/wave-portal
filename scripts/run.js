@@ -9,19 +9,26 @@ const main = async() => {
 
   console.log("Contract deployed to:", waveContract.address);
   console.log("Contract deployed by:", owner.address);
-
-  let waveCount;
-  waveCount = await waveContract.getTotalWaves();
   
-  let waveTxn = await waveContract.wave();
+  // get initial wave count
+  let waveData;
+  waveData = await waveContract.getAllWaves();
+  
+  // call the contract function to wave and wait for it to finish
+  let waveTxn = await waveContract.wave("tester message");
+  await waveTxn.wait();
+  
+  // get the total wave count again to make sure it incremented
+  waveData = await waveContract.getAllWaves();
+  console.log("Wave data:", waveData);
+  
+  // this time call wave function from a different public key/wallet
+  waveTxn = await waveContract.connect(randomPerson).wave("Random person message");
   await waveTxn.wait();
 
-  waveCount = await waveContract.getTotalWaves();
-
-  waveTxn = await waveContract.connect(randomPerson).wave();
-  await waveTxn.wait();
-
-  waveCount = await waveContract.getTotalWaves();
+  // get total waves again
+  waveData = await waveContract.getAllWaves();
+  console.log("Wave data:", waveData);
 }
 
 // get our main function to run asynchronously
