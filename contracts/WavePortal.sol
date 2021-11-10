@@ -19,15 +19,28 @@ contract WavePortal {
     // variable to allow the store of the wave struct
     Wave[] waves;
 
-    constructor() {
+    constructor() payable {
         console.log("sup");
     }
 
     function wave(string memory _message) public {
         totalWaves += 1;
         console.log("%s has waved!", msg.sender);
+
+        // Add wave data to array
         waves.push(Wave(msg.sender, _message, block.timestamp));
+
+        // emit event that we had a new wave
         emit NewWave(msg.sender, block.timestamp, _message);
+
+        // give prize to address sending wave
+        uint256 prizeAmount = 0.0001 ether;
+        require(
+            prizeAmount <= address(this).balance,
+            "Trying to withdraw more money than the contract has."
+        );
+        (bool success, ) = (msg.sender).call{value: prizeAmount}("");
+        require(success, "Failed to withdraw money from contract.");
     }
 
     function getAllWaves() public view returns (Wave[] memory) {
