@@ -25,6 +25,8 @@ const main = async() => {
   const waveTxn = await waveContract.wave('This is wave #1');
   await waveTxn.wait();
 
+  await delay(31);
+
   const waveTxn2 = await waveContract.wave('This is wave #2');
   await waveTxn2.wait();
 
@@ -38,6 +40,12 @@ const main = async() => {
   // get all wave data
   waveData = await waveContract.getAllWaves();
   console.log("Wave data:", waveData);
+}
+
+function delay(n){
+  return new Promise(function(resolve){
+      setTimeout(resolve,n*1000);
+  });
 }
 
 // get our main function to run asynchronously
