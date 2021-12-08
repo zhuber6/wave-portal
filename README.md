@@ -1,15 +1,19 @@
-# Basic Sample Hardhat Project
+# Simple Wave Portal Smart Contract
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+This project creates a smart contract providing a wave function that waves at the contract and keeps
+a log of which address waved and when.
 
-Try running some of the following tasks:
-
-```shell
-npx hardhat accounts
+To build contract:
+```
 npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+```
+
+To run test script:
+```
+npx hardhat run scripts/run.js
+```
+
+To deploy contract to Rinkeby:
+```
+npx hardhat run scripts/deploy.js --network rinkeby
 ```
